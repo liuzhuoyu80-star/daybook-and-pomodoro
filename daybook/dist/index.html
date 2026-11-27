@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#263fba"><title>日程簿 · 每日精力工作台</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7f8;color:#192333;font:16px/1.55 "DM Sans","Microsoft YaHei",system-ui,sans-serif}button,input,textarea,select{font:inherit;color:inherit}button,select,input[type=checkbox]{cursor:pointer}button{background:white;border:1px solid #cdd2db;border-radius:7px;padding:7px 14px}button:hover{border-color:#2645ae;background:#eff3ff}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #8ca4ff;outline-offset:2px}header{background:#fff;border-bottom:1px solid #dfe3e8}nav,main{max-width:1200px;margin:auto;padding:0 32px}nav{display:flex;align-items:center;gap:18px;min-height:64px}nav strong{display:flex;align-items:center;gap:12px;font-size:21px}nav i{display:inline-block;width:27px;height:28px;border-radius:6px;background:repeating-linear-gradient(90deg,#344fc2 0 5px,#fff 5px 7px);border:2px solid #344fc2}nav small{color:#687481;border-left:1px solid #d6dae1;padding-left:18px}nav input{margin-left:auto;border:1px solid #d3d8df;border-radius:6px;padding:5px 9px;background:white}main{padding-bottom:65px}.hero{margin:26px 0 20px;background:#263fb7;color:white;padding:30px clamp(20px,4vw,54px);border-radius:14px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative}.hero h1{font-size:clamp(28px,3.3vw,48px);letter-spacing:.04em;margin:7px 0 0;line-height:1.3}.hero small{letter-spacing:.13em;color:#dfebff}.art{width:170px;height:110px;position:relative;margin-right:26px}.art b{position:absolute;width:95px;height:91px;border:1.5px solid #a2baff;border-radius:7px;transform:skewY(-13deg);right:0;top:9px}.art b:nth-child(2){right:20px;top:14px;background:#536fe1}.art b:last-child{right:40px;top:19px;background:#bdd1ff;color:#263fb7;font:64px/1.4 Georgia;text-align:center}.panel,article{background:white;border:1px solid #dbe0e5;border-radius:12px}.panel{padding:20px 25px}.row,.head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}h2,h3,p{margin:0}h2{font-size:22px}h3{font-size:18px}.presets button{font-size:14px;margin-left:4px;padding:5px 11px}.presets button[aria-pressed=true]{background:#eaf0ff;border-color:#9cafea;color:#213ba3}.total{color:#667380;font-size:14px;margin-top:4px}.bar{display:flex;gap:3px;height:15px;margin:16px 0;border-radius:4px;overflow:hidden;background:#edf0f4}.bar span{background:var(--c)}.alloc{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.alloc label{display:flex;align-items:center;gap:8px;font-size:14px}.dot{background:var(--c);width:10px;height:10px;border-radius:3px;display:inline-block}.alloc input{width:64px;padding:3px 4px;border:1px solid #d7dce4;border-radius:5px;text-align:center}.section{margin:25px 0 12px}.muted,footer{color:#65727e;font-size:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}article{padding:18px 20px;border-top:3px solid var(--c)}article h3{display:flex;align-items:center;gap:10px}.count{font-size:14px;color:#566574}.add{display:flex;gap:5px;margin-top:10px}.add input,.add select,textarea{border:1px solid #d2d9e1;border-radius:6px;background:#fafbfc;padding:8px;min-width:0}.add input{flex:1;width:100%}.add select{font-size:14px}.add button{font-size:21px;line-height:1}.task{display:flex;align-items:center;gap:8px;border-bottom:1px solid #e5e8ed;padding:9px 0}.task input{width:18px;height:18px;accent-color:#304fc0}.task label{flex:1;overflow-wrap:anywhere}.task small{font-size:12px;color:#526291;background:#eef2fa;padding:2px 5px;border-radius:3px}.task.done label{text-decoration:line-through;color:#717b83}.task button{border:0;font-size:14px;color:#566474;padding:4px}.paused label{color:#69778a}.foot{margin-top:13px}textarea{width:100%;resize:vertical;line-height:1.6}.report{display:grid;grid-template-columns:1fr 1.45fr;gap:20px;margin-top:14px}.report label{font-size:14px;display:block;color:#536071;margin-bottom:5px}.primary{background:#263fb7;color:white;border-color:#263fb7}.primary:hover{background:#1e3294;color:white}footer{margin-top:15px}#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#172642;color:white;border-radius:7px;padding:7px 14px}#toast:empty{display:none}@media(max-width:800px){.alloc{grid-template-columns:1fr 1fr}.art{margin-right:0;width:120px}.grid,.report{grid-template-columns:1fr}}@media(max-width:560px){main,nav{padding-left:12px;padding-right:12px}nav{gap:8px}nav small,.art{display:none}.hero{margin-top:14px}.panel,article{padding:15px}.alloc{gap:10px 4px}.alloc label{gap:4px}.alloc input{width:48px}.add select{max-width:72px}.presets button{margin-left:0}.hero h1{font-size:30px}}
+.type-note{margin:6px 0 12px}.archive-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px;margin-top:16px}.archive-fields label{display:grid;align-content:start;gap:6px;font-size:15px}.section-cue{font-size:14px;font-weight:600;color:#3858a8}.intro{margin-top:6px}.archive-panel{border-left:4px solid #409680}.archive-panel .section-cue{color:#327665}.delivery-panel{border-left:4px solid #3556cb}@media(max-width:650px){.archive-fields{grid-template-columns:1fr}}
+.entry-actions{display:flex;gap:8px;flex-wrap:wrap}.entry-list{margin:14px 0 0}.entry-list details{border-top:1px solid #dce2e8}.entry-list summary,.preview summary{padding:11px 2px;cursor:pointer;font-weight:600;overflow-wrap:anywhere}.entry-list details[open] summary{color:#29488d}.entry-body{padding:2px 2px 16px}.entry-body label{font-size:14px}.entry-title{display:block;width:100%;margin-top:4px;border:1px solid #d2d9e1;border-radius:6px;padding:7px 9px}.entry-body .archive-fields{margin-top:10px}.entry-body .delete-entry{display:block;margin:10px 0 0 auto;padding:3px 9px;color:#65727e;font-size:14px}.preview{border-top:1px solid #dce2e8;color:#536071}
+#openBoard{margin-left:auto}nav input{margin-left:0}dialog{border:1px solid #ccd5e2;border-radius:14px;padding:22px;color:inherit;width:min(560px,96vw);max-height:90vh;overflow:auto}dialog::backdrop{background:#18243a60}#board{width:min(940px,96vw)}#board header{padding-bottom:12px}#board header small{color:#617185}.board-layout{display:grid;grid-template-columns:175px 1fr;gap:24px;margin-top:18px}.board-layout aside{border-right:1px solid #dce1e9;padding-right:12px}#boardDates button{display:block;width:100%;margin:5px 0}#boardDates [aria-current=true]{background:#eaf0ff;color:#263fb7}.board-layout h3{margin-bottom:8px}.record-block{border-top:1px solid #dce1e9;margin-top:12px;padding-top:8px}.record-block h4{margin:8px 0}.record-block p,#latestText{white-space:pre-wrap;overflow-wrap:anywhere;margin:4px 0 10px}.record-block small{color:#62738b}.record-block label{display:block;margin-top:6px}#boardStatus,#keyDialog .entry-actions{margin-top:15px}#latestText{max-height:45vh;overflow:auto}button:disabled{opacity:.55;cursor:wait}@media(max-width:650px){.board-layout{grid-template-columns:1fr}.board-layout aside{border:0}#boardDates{display:flex;overflow:auto;gap:5px}#boardDates button{width:auto;white-space:nowrap}#openBoard{padding:5px}nav{flex-wrap:wrap}dialog{padding:14px}}
+#taskMenu{position:fixed;z-index:9;padding:4px;background:white;border:1px solid #cdd4df;border-radius:7px;box-shadow:0 4px 18px #14233a28}#taskMenu button{border:0;text-align:left;min-width:110px}.task .inline-name{min-width:0;width:0;height:auto;flex:1;font:inherit;border:1px solid #5279c4;border-radius:3px;padding:0 3px}.inline-name::selection{background:#2962cf;color:white}.task button,.task small{flex-shrink:0}.grip,.task .grip{width:28px;height:28px;border:0;background:transparent;color:#66758a;cursor:grab;padding:5px;touch-action:none;user-select:none;flex:none}.grip::before{content:"";display:block;width:16px;height:12px;margin:auto;background:linear-gradient(to bottom,currentColor 0 2px,transparent 2px 5px,currentColor 5px 7px,transparent 7px 10px,currentColor 10px 12px)}.entry-list details{position:relative}.entry-list summary{padding-right:38px}.entry-list .grip{position:absolute;top:6px;right:2px}.drag-source{display:none!important}.drag-chip{position:fixed;top:0;left:0;z-index:100;pointer-events:none;box-sizing:border-box;padding:0 8px;background:#fff;border:1px solid #acbce1;border-radius:8px;box-shadow:0 7px 20px #20356138;will-change:transform}.drag-chip *{pointer-events:none!important}.drag-chip .task{border:0}.drag-chip .entry-list{margin:0}.drag-chip .entry-list details{border:0}.drag-slot{box-sizing:border-box;border:1px dashed #acbde0;border-radius:7px;background:#eef3fc}.drag-active,.drag-active *{cursor:grabbing!important;user-select:none!important}
+.note-set{border:0;margin:12px 0;padding:0}.note-set legend{font-weight:600}.note-set label{display:block;margin-top:8px;font-size:14px}#taskMenu button:not([hidden]){display:block;width:100%}
+.date-step{display:inline-flex;align-items:center;gap:4px}.date-step button{padding:6px 8px}.task-choice{display:flex;gap:8px;align-items:baseline;padding:4px 0;overflow-wrap:anywhere}#taskChoices{max-height:48vh;overflow:auto;margin:12px 0}.date-step input{margin:0}
+.archive-panel .archive-fields textarea,.note-set[data-notes=thoughts] textarea{color:#409680}.delivery-panel .archive-fields textarea,.note-set[data-notes=deliveries] textarea{color:#3556cb}.profile-picker{position:relative}#profileList,#profileActions{background:white;border:1px solid #cad3dd;border-radius:8px;padding:4px;box-shadow:0 5px 20px #15233826;min-width:145px;z-index:25}#profileList{position:absolute;right:0;top:100%;max-height:55vh;overflow:auto}#profileActions{position:fixed;z-index:26}#profileList button,#profileActions button{display:block;width:100%;border:0;text-align:left;overflow-wrap:anywhere}#profileList button[aria-current=true]{color:#2949ab;background:#eef2ff}#profileList button:last-child{border-top:1px solid #dce0e5}#dateInventory,#backupAdvice{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0}#profileForm .entry-actions{margin-top:14px}
+</style></head><body>
+<header><nav><strong><i aria-hidden="true"></i>日程簿</strong><small>每日精力工作台</small><button id="openBoard">历史看板</button><div class="date-step"><button id="prevDay" aria-label="前一天" title="前一天">◀</button><input type="date" id="day" aria-label="工作日期"><button id="nextDay" aria-label="后一天" title="后一天">▶</button></div><div class="profile-picker"><button id="accountButton" aria-label="选择用户" aria-expanded="false">选择用户 ▾</button><div id="profileList" hidden></div></div></nav></header>
+<main><section class="hero"><div><small id="weekday"></small><h1>探索可以留白，<br>交付要有着落。</h1></div><div class="art" aria-hidden="true"><b></b><b></b><b>✓</b></div></section>
+<section class="panel"><div class="row"><div><h2>今日精力分配</h2><p class="total" id="total"></p></div><div class="presets"><button data-preset="0">标准日</button> <button data-preset="1">轻负荷日</button></div></div><div class="bar" id="bar" aria-hidden="true"></div><div class="alloc" id="allocation"></div></section>
+<div class="row section"><h2>今日任务</h2><div class="entry-actions"><span class="muted" id="progress"></span><button id="exportTasks">导出任务</button><button id="importTasks">导入任务</button></div></div><div class="grid" id="cards"></div>
+<section data-kind="thoughts" class="panel section archive-panel"><div class="row"><div><p class="section-cue">探索可以留白</p><h2>思考存档</h2></div><div class="entry-actions"><button id="addThought">＋ 添加思考节点</button><button id="copyArchive">复制思考存档</button></div></div><div id="thoughts" class="entry-list"></div></section>
+<section data-kind="deliveries" class="panel section delivery-panel"><div class="row"><div><p class="section-cue">交付要有着落</p><h2>每日进展汇报</h2></div><div class="entry-actions"><button id="addDelivery">＋ 添加交付</button><button class="primary" id="copy">复制汇报</button></div></div><div id="deliveries" class="entry-list"></div><details class="preview"><summary>汇报预览</summary><textarea readonly id="summary" aria-label="汇报预览" rows="26" placeholder="填写交付内容或记录工作事项后，这里会自动生成当日进展。"></textarea></details></section>
+<div class="row"><span id="uploadStatus" class="muted" role="status"></span><div class="entry-actions"><button id="exportDay">复制导出</button><button id="importDay">导入内容</button><button hidden id="loadShared">载入局域网草稿</button><button id="saveShared">保存草稿</button><button class="primary" id="uploadDay">归档整日工作台</button></div></div><footer>点击「保存草稿」后，其他设备选择同一用户和日期即可继续填写。「归档整日工作台」会另外保存到 本机历史看板。</footer></main><div id="toast" role="status"></div>
+<dialog id="board"><header class="row"><div><small>日程簿 / 本机存档</small><h2>历史看板</h2></div><button id="closeBoard">返回工作台</button></header>
+<div class="board-layout"><aside><h3>已归档日期</h3><div id="boardDates"></div></aside><section id="boardDay"></section></div><p class="muted" id="boardStatus" role="status"></p></dialog>
+<dialog id="compare"><h2>此日期已有更新</h2><p>下面是 历史看板中的最新存档。你可以保留它，或用刚才准备保存的整日内容替换它。</p><pre id="latestText"></pre><div class="entry-actions"><button id="keepRemote">保留现有存档</button><button id="replaceRemote">用本次内容替换</button></div></dialog>
+
+<div id="taskMenu" hidden><button id="renameItem">修改名字</button><button id="showDescription" hidden>查看描述</button></div>
+<div id="profileActions" hidden><button id="renameProfile">修改名字</button><button id="deleteProfile">删除用户</button></div>
+<dialog id="profileDialog"><form id="profileForm"><h2 id="profileHeading"></h2><label>用户名<input id="profileName" class="entry-title" required maxlength="40" autocomplete="off"></label><div class="entry-actions"><button class="primary">保存</button><button type="button" id="cancelProfile">取消</button></div><p id="profileError" role="status"></p></form></dialog>
+<dialog id="deleteDialog"><h2 id="deleteHeading"></h2><p id="dateInventory"></p><p id="backupAdvice"></p><div class="entry-actions"><button id="confirmDelete">删除用户</button><button id="cancelDelete">取消</button></div><p id="deleteError" role="status"></p></dialog>
+<dialog id="descriptionDialog"><h2 id="descriptionTitle"></h2><div id="descriptionFields"></div><button id="closeDescription">完成</button></dialog>
+<dialog id="taskExportDialog"><h2>导出任务</h2><p>勾选要带走的任务，默认选中未完成项。</p><div id="taskChoices"></div><div class="entry-actions"><button class="primary" id="copyTasks">复制选中任务</button><button id="cancelTaskExport">关闭</button></div></dialog>
+<dialog id="taskImportDialog"><h2>导入任务</h2><p id="taskDestination"></p><textarea id="taskText" rows="8" aria-label="任务导入文本" placeholder="粘贴「导出任务」复制的内容"></textarea><p id="taskError" role="status"></p><div class="entry-actions"><button class="primary" id="applyTasks">追加到今日任务</button><button id="cancelTaskImport">取消</button></div></dialog>
+<dialog id="importDialog"><h2>导入到工作台</h2><p>粘贴「复制导出」生成的文本，或将保存该文本的文件拖到下面。内容将恢复到文本中标记的日期。</p><textarea id="importText" aria-label="导入文本" rows="9"></textarea><input id="importFile" aria-label="选择导入文件" type="file" accept=".json,.txt"><p id="importError" role="status"></p><div class="entry-actions"><button class="primary" id="applyImport">识别并导入</button><button id="cancelImport">取消</button></div></dialog>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const groups=['高功率','低功率','机动','休息'],colors=['#3556cb','#409680','#d09740','#8594ae'];
+const descriptions=['学习新概念、解决难题、搭建监测流程。','整理资料、记录数据、完善表格、执行重复性任务。','沟通、汇报、处理临时需求，给当天的工作收尾。','把休息分散到一天里，喝水、走动、看看远处，放空一会儿。'];
+const hints=['例如：完成一版文章选题方案','例如：把上午的参考链接归入表格','例如：向同事确认素材交期','例如：走一走，看看窗外'];
+const presets=[[3,2.5,1,1],[1.5,3.5,1.5,1]];
+const pad=n=>String(n).padStart(2,'0'),now=new Date();
+$('day').value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+let date,state,timer;
+const previousUser=JSON.parse(sessionStorage.getItem('daybook.session')||'null')?.user;
+sessionStorage.removeItem('daybook.session');
+const savedUser=sessionStorage.getItem('daybook.profile')||previousUser||localStorage.getItem('daybook.lastProfile');
+let user=savedUser||'user1';
+
+function draftKey(d){return 'daybook.draft.'+user+'.'+d}
+function versionKey(d){return 'daybook.version.'+user+'.'+d}
+function readDraft(d){return localStorage.getItem(draftKey(d)) || (user==='user1'?localStorage.getItem('daybook.v1.'+d):null)}
+
+function notify(s){$('toast').textContent=s;clearTimeout(timer);timer=setTimeout(()=>$('toast').textContent='',2600)}
+function save(){try{localStorage.setItem(draftKey(date),JSON.stringify(state))}catch{notify('浏览器保存失败，请复制汇报留存')}}
+let previousDraftDate='';
+function carryThoughts(items){
+  const thoughts=(items||[]).filter(t=>t.title?.trim()&&!/^思考 \d+$/.test(t.title)||Object.keys(t.descriptions||{}).length||entryTypes.thoughts.fields.some(([k])=>t[k]?.trim()));
+  state.thoughts=thoughts.length?thoughts:[];
+}
+function localCarry(){
+  const prefixes=[draftKey('')];if(user==='user1')prefixes.push('daybook.v1.');
+  const dates=Object.keys(localStorage).flatMap(key=>{
+    const prefix=prefixes.find(p=>key.startsWith(p));
+    const day=prefix?key.slice(prefix.length):'';
+    return /^\d{4}-\d{2}-\d{2}$/.test(day)&&day<date?[day]:[];
+  });
+  previousDraftDate=dates.sort().pop()||'';
+  if(previousDraftDate){
+    const previous=JSON.parse(readDraft(previousDraftDate));
+    carryThoughts(previous.thoughts||(previous.archive?[{title:'思考 1',...previous.archive}]:[]));
+  }
+}
+function load(){$('uploadStatus').textContent='';date=$('day').value;const existing=readDraft(date);previousDraftDate='';state=JSON.parse(existing||'null')||{hours:[...presets[0]],tasks:[],help:'',next:''};$('weekday').textContent=new Date(date+'T12:00:00').toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});initEntries();if(!existing)localCarry();allocation();cards();renderEntries('thoughts');renderEntries('deliveries');summary();checkShared()}
+function allocation(){const sum=state.hours.reduce((a,b)=>a+b,0);$('total').textContent='计划总时长 '+Number(sum.toFixed(2))+' 小时';$('bar').replaceChildren();$('allocation').replaceChildren();groups.forEach((g,i)=>{const v=state.hours[i],seg=document.createElement('span');seg.style.setProperty('--c',colors[i]);seg.style.flex=String(v);if(v)$('bar').append(seg);const label=document.createElement('label');label.style.setProperty('--c',colors[i]);label.innerHTML='<i class="dot"></i>'+g+' <input type="number" min="0" max="24" step="any" aria-label="'+g+'小时"> h';const input=label.querySelector('input');input.value=v;input.onchange=()=>{const n=input.valueAsNumber;if(!Number.isFinite(n)||n<0||n>24){input.value=v;notify('请输入 0 到 24 之间的小时数');return}state.hours[i]=Number(n.toFixed(2));save();allocation()};$('allocation').append(label)});document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed',String(presets[b.dataset.preset].every((v,i)=>v===state.hours[i]))))}
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{state.hours=[...presets[b.dataset.preset]];save();allocation()});
+function refresh(){save();cards();summary()}
+const taskMenu=$('taskMenu');
+document.addEventListener('pointerdown',e=>{if(!taskMenu.contains(e.target))taskMenu.hidden=true});
+window.addEventListener('scroll',()=>taskMenu.hidden=true,true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')taskMenu.hidden=true});
+function enableTaskRename(row,task,label,remove){
+  label.title='右键修改名字';
+  row.oncontextmenu=e=>{
+    if(e.target.classList.contains('inline-name'))return;
+    e.preventDefault();
+    const view=$('showDescription');view.hidden=!Object.keys(task.descriptions||{}).length;
+    view.onclick=()=>{
+      taskMenu.hidden=true;$('descriptionTitle').textContent=task.title;
+      const host=$('descriptionFields');host.replaceChildren();descriptionFields(host,task);
+      $('descriptionDialog').showModal();
+    };
+    taskMenu.hidden=false;
+    taskMenu.style.left=Math.min(e.clientX,innerWidth-taskMenu.offsetWidth)+'px';
+    taskMenu.style.top=Math.min(e.clientY,innerHeight-taskMenu.offsetHeight)+'px';
+    $('renameItem').focus();
+    $('renameItem').onclick=()=>{
+      taskMenu.hidden=true;
+      const input=document.createElement('input');
+      input.className='inline-name';input.maxLength=400;input.value=task.title;input.setAttribute('aria-label','任务名称');
+      label.replaceWith(input);input.focus();input.select();
+      function finish(commit){
+        if(!input.isConnected)return;
+        const name=input.value.trim();
+        input.onblur=null;
+        if(commit&&name&&name!==task.title){
+          task.title=name;label.textContent=name;remove.setAttribute('aria-label','删除'+name);save();summary();
+        }
+        input.replaceWith(label);
+      }
+      input.onblur=()=>finish(true);
+      input.onkeydown=event=>{
+        if(event.isComposing||event.keyCode===229)return;
+        if(['Enter','Escape'].includes(event.key)){event.preventDefault();finish(event.key==='Enter')}
+      };
+    };
+  };
+}
+$('closeDescription').onclick=()=>$('descriptionDialog').close();
+function descriptionFields(host,item){
+  for(const [kind,type] of Object.entries(entryTypes)){
+    const notes=item.descriptions?.[kind];if(!notes)continue;
+    const set=node('fieldset',undefined,'note-set');set.dataset.notes=kind;set.append(node('legend',type.name+'描述'));
+    for(const [key,title] of type.fields){
+      const label=node('label',title),field=node('textarea');
+      field.rows=3;field.value=notes[key]||'';
+      field.oninput=()=>{notes[key]=field.value;save()};
+      label.append(field);set.append(label);
+    }
+    host.append(set);
+  }
+}
+function convertItem(item,source,dest,group){
+  if(source===dest){
+    if(dest==='tasks'&&item.group!==group){
+      item.group=group;
+      if(group===3){item.delivery=false;if(item.status==='paused')item.status='open'}
+    }
+    return item;
+  }
+  const notes={...item.descriptions};
+  if(source!=='tasks')notes[source]=Object.fromEntries(entryTypes[source].fields.map(([key])=>[key,item[key]||'']));
+  const moved={title:item.title};
+  if(dest==='tasks'){
+    Object.assign(moved,{id:Date.now()+'-'+Math.random().toString(36).slice(2),group,status:'open',delivery:group!==3});
+  }else{
+    Object.assign(moved,notes[dest]);delete notes[dest];
+  }
+  if(Object.keys(notes).length)moved.descriptions=notes;
+  return moved;
+}
+const rowModels=new WeakMap();
+function addGrip(row,item,source){
+  rowModels.set(row,item);
+  const grip=document.createElement('button');
+  grip.className='grip';grip.type='button';grip.title='拖动排序或移到其他板块';grip.setAttribute('aria-label','拖动排序或转移');
+  function move(zone,target,after){
+    if(target===row)return;
+    const dest=zone.dataset.kind,group=Number(zone.dataset.group);
+    const same=source===dest&&(dest!=='tasks'||item.group===group);
+    let landed=row;
+    if(same){
+      const host=row.parentElement;
+      if(target)host.insertBefore(row,after?target.nextSibling:target);else host.append(row);
+      const ordered=Array.from(host.children,r=>rowModels.get(r));
+      if(source==='tasks'){
+        let i=0;state.tasks=state.tasks.map(t=>t.group===item.group?ordered[i++]:t);
+      }else state[source]=ordered;
+    }else{
+      const index=state[source].indexOf(item);if(index<0)return;
+      state[source].splice(index,1);
+      const moved=convertItem(item,source,dest,group);
+      const anchor=target?state[dest].indexOf(rowModels.get(target)):-1;
+      state[dest].splice(anchor<0?state[dest].length:anchor+Number(after),0,moved);
+      // Keep unfinished task input and the open state of unrelated panels.
+      if(source==='tasks'||dest==='tasks'){
+        const forms=[...document.querySelectorAll('#cards .add')].map(f=>[f.querySelector('input').value,f.querySelector('select').value]);
+        cards();document.querySelectorAll('#cards .add').forEach((f,i)=>{f.querySelector('input').value=forms[i][0];f.querySelector('select').value=forms[i][1]});
+      }
+      for(const key of [source,dest])if(key!=='tasks')renderEntries(key);
+      const host=dest==='tasks'?$('cards').children[group]:$(dest);
+      landed=Array.from(host.querySelectorAll('.task,details')).find(r=>rowModels.get(r)===moved);
+
+    }
+    save();summary();return landed;
+  }
+  grip.onkeydown=e=>{
+    if(e.key==='ArrowUp'||e.key==='ArrowDown'){
+      e.preventDefault();const down=e.key==='ArrowDown',next=down?row.nextElementSibling:row.previousElementSibling;
+      if(next)move(row.closest('[data-kind]'),next,down);grip.focus();
+    }
+  };
+  grip.onpointerdown=e=>{
+    if(e.button!==0||!e.isPrimary||document.body.classList.contains('drag-active'))return;
+    e.preventDefault();
+    const origin=row.getBoundingClientRect(),header=source==='tasks'?row:row.querySelector('summary');
+    const height=header.getBoundingClientRect().height;
+    const offsetX=Math.max(0,Math.min(1,(e.clientX-origin.left)/origin.width));
+    const offsetY=Math.max(0,Math.min(height,e.clientY-origin.top));
+    const capture=document.documentElement,id=e.pointerId;
+    capture.setPointerCapture(id);
+    const parked=document.createElement('div'),chip=document.createElement('div');
+    parked.className='drag-slot';parked.style.height=height+'px';
+    chip.className='drag-chip';chip.inert=true;chip.setAttribute('aria-hidden','true');
+    let x=e.clientX,y=e.clientY,dragging=false,zone=null,frame=0;
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const slides=new Map();
+    function siblings(){return document.querySelectorAll('.items > .task:not(.drag-source),.entry-list > details:not(.drag-source)')}
+    function shift(change){
+      if(reduce){change();return}
+      const before=new Map(Array.from(siblings(),el=>[el,el.getBoundingClientRect().top]));
+      for(const anim of slides.values())anim.cancel();slides.clear();
+      change();
+      for(const [el,top] of before){
+        const dy=top-el.getBoundingClientRect().top;
+        if(el.isConnected&&Math.abs(dy)>1){
+          slides.set(el,el.animate([{transform:'translateY('+dy+'px)'},{transform:'none'}],{duration:160,easing:'ease-out'}));
+        }
+      }
+    }
+    function layoutMiddle(el){
+      const box=el.getBoundingClientRect();
+      const transform=getComputedStyle(el).transform;
+      const offset=slides.has(el)&&transform!=='none'?new DOMMatrixReadOnly(transform).m42:0;
+      return box.top-offset+box.height/2;
+    }
+    function locate(){
+      zone=document.elementFromPoint(x,y)?.closest('[data-kind]')||null;
+      const host=zone?.querySelector(zone.dataset.kind==='tasks'?'.items':'.entry-list');
+      if(host){
+        const anchor=Array.from(host.children).find(el=>el!==row&&rowModels.has(el)&&y<layoutMiddle(el))||null;
+        if(parked.parentElement!==host||parked.nextElementSibling!==anchor && !(parked.nextElementSibling===row&&row.nextElementSibling===anchor)){
+          shift(()=>host.insertBefore(parked,anchor));
+        }
+      }else if(parked.isConnected)shift(()=>parked.remove());
+      const width=Math.min(host?.getBoundingClientRect().width||origin.width,innerWidth-12);
+      chip.style.width=width+'px';
+      chip.style.transform='translate('+Math.max(4,Math.min(innerWidth-width-4,x-offsetX*width))+'px,'+(y-offsetY)+'px)';
+    }
+    function scroll(){
+      if(y<48||y>innerHeight-48){
+        const before=window.scrollY;window.scrollBy(0,y<48?-12:12);if(window.scrollY!==before)locate();
+      }
+      frame=requestAnimationFrame(scroll);
+    }
+    function start(){
+      const visual=row.cloneNode(true);
+      visual.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+      if(source==='tasks')chip.append(visual);
+      else{
+        visual.open=false;visual.removeAttribute('name');visual.querySelector('.entry-body')?.remove();
+        const list=node('div',undefined,'entry-list');list.append(visual);chip.append(list);
+      }
+      document.body.append(chip);document.body.classList.add('drag-active');
+      shift(()=>{row.before(parked);row.classList.add('drag-source')});
+      dragging=true;frame=requestAnimationFrame(scroll);
+    }
+    function track(ev){
+      if(ev.pointerId!==id)return;
+      x=ev.clientX;y=ev.clientY;
+      if(!dragging&&Math.hypot(x-e.clientX,y-e.clientY)<5)return;
+      if(!dragging)start();
+      locate();
+    }
+    function finish(commit){
+      cancelAnimationFrame(frame);
+      capture.removeEventListener('pointermove',track);
+      capture.removeEventListener('pointerup',up);
+      capture.removeEventListener('lostpointercapture',cancel);
+      capture.removeEventListener('pointercancel',cancel);
+      document.removeEventListener('keydown',key);window.removeEventListener('blur',cancel);
+      if(capture.hasPointerCapture(id))capture.releasePointerCapture(id);
+      if(!dragging)return;
+      const from=chip.getBoundingClientRect(),dest=zone;
+      let anchor=parked.nextElementSibling;if(anchor===row)anchor=row.nextElementSibling;
+      for(const anim of slides.values())anim.cancel();
+      parked.remove();row.classList.remove('drag-source');document.body.classList.remove('drag-active');
+      const landing=commit&&dest?move(dest,anchor,false):row;
+      if(!landing||reduce){chip.remove();return}
+      const box=landing.getBoundingClientRect();
+      const actual=landing.animate([{opacity:0},{opacity:1}],{duration:170});
+      const flight=chip.animate([
+        {transform:'translate('+from.left+'px,'+from.top+'px)',width:from.width+'px',opacity:1},
+        {transform:'translate('+box.left+'px,'+box.top+'px)',width:box.width+'px',opacity:0}
+      ],{duration:170,easing:'ease-out',fill:'forwards'});
+      flight.onfinish=()=>{chip.remove();actual.cancel()};
+    }
+    function up(ev){if(ev.pointerId===id){if(dragging&&(ev.clientX!==x||ev.clientY!==y))track(ev);finish(true)}}
+    function cancel(ev){if(ev.pointerId===undefined||ev.pointerId===id)finish(false)}
+    function key(ev){if(ev.key==='Escape'){ev.preventDefault();finish(false)}}
+    capture.addEventListener('pointermove',track);capture.addEventListener('pointerup',up);
+    capture.addEventListener('lostpointercapture',cancel);capture.addEventListener('pointercancel',cancel);
+    document.addEventListener('keydown',key);window.addEventListener('blur',cancel);
+  };
+  grip.onclick=e=>{e.preventDefault();e.stopPropagation()};
+  return grip;
+}
+function cards(){$('cards').replaceChildren();groups.forEach((g,i)=>{const list=state.tasks.filter(t=>t.group===i),done=list.filter(t=>t.status==='done').length,paused=list.filter(t=>t.status==='paused').length;const el=document.createElement('article');el.dataset.kind='tasks';el.dataset.group=i;el.style.setProperty('--c',colors[i]);el.innerHTML='<div class="head"><h3><i class="dot"></i>'+g+(i===3?'时间':'任务')+'</h3><span class="count"></span></div><p class="muted type-note">'+descriptions[i]+'</p><div class="items"></div><form class="add"><input maxlength="400" required><select aria-label="任务类型"><option>阶段任务</option><option selected>交付任务</option></select><button aria-label="添加'+g+'事项">＋</button></form>';el.querySelector('.count').textContent=list.length&&done===list.length?'✓ 全部完成':done+' / '+list.length+' 完成'+(paused?' · '+paused+' 暂停':'');const form=el.querySelector('form'),input=form.querySelector('input'),sel=form.querySelector('select');input.placeholder=hints[i];input.setAttribute('aria-label','新增'+g+'事项');sel.hidden=i===3;form.onsubmit=e=>{e.preventDefault();const title=input.value.trim();if(!title)return;state.tasks.push({id:Date.now()+'-'+Math.random().toString(36).slice(2),group:i,title,delivery:i!==3&&sel.selectedIndex===1,status:'open'});refresh();$('cards').children[i].querySelector('form input').focus()};for(const t of list){const row=document.createElement('div');row.className='task '+t.status;const cb=document.createElement('input');cb.type='checkbox';cb.id='task-'+t.id;cb.checked=t.status==='done';cb.onchange=()=>{t.status=cb.checked?'done':'open';refresh()};const label=document.createElement('label');label.htmlFor=cb.id;label.textContent=t.title;row.append(cb,label);if(t.delivery){const badge=document.createElement('small');badge.textContent='交付';row.append(badge)}else if(t.status!=='done'&&i!==3){const b=document.createElement('button');b.textContent=t.status==='paused'?'继续':'先到这里';b.onclick=()=>{t.status=t.status==='paused'?'open':'paused';refresh()};row.append(b)}const del=document.createElement('button');del.textContent='×';del.setAttribute('aria-label','删除'+t.title);del.onclick=()=>{if(confirm('删除这条事项？')){state.tasks=state.tasks.filter(x=>x.id!==t.id);refresh()}};enableTaskRename(row,t,label,del);row.append(addGrip(row,t,'tasks'),del);el.querySelector('.items').append(row)}$('cards').append(el)});const d=state.tasks.filter(t=>t.delivery);$('progress').textContent='今日交付　'+d.filter(t=>t.status==='done').length+' / '+d.length+' 项完成'}
+function summary(){const tasks=state.tasks.filter(t=>t.group!==3),parts=[date+' 工作进展'];function group(name,items){if(items.length)parts.push(name+'\n'+items.map(x=>'• '+x).join('\n'))}group('已完成交付',tasks.filter(t=>t.delivery&&t.status==='done').map(t=>t.title));group('其他已完成',tasks.filter(t=>!t.delivery&&t.status==='done').map(t=>t.title));group('待完成交付',tasks.filter(t=>t.delivery&&t.status!=='done').map(t=>t.title));group('推进中',tasks.filter(t=>!t.delivery&&t.status==='open').map(t=>t.title));group('阶段性暂放',tasks.filter(t=>t.status==='paused').map(t=>t.title));parts.push(...entryText('deliveries'));
+  $('summary').value=parts.length>1?parts.join('\n\n'):'';
+}
+const entryTypes={
+  thoughts:{name:'思考',fields:[
+    ['known','我已经确定了什么？'],['stuck','我现在卡在哪里？'],
+    ['guess','目前的直觉或尚未证实的猜想是什么？'],['resume','下次什么时候继续，从哪一步开始？']
+  ]},
+  deliveries:{name:'交付',fields:[
+    ['done','已完成','写下具体成果，例如：已提交第一版选题表。'],
+    ['help','需要协助或确认'],['next','下一步安排']
+  ]}
+};
+function initEntries(){
+  // Older dates stored one archive and one pair of report fields.
+  if(!Array.isArray(state.thoughts))state.thoughts=[{...state.archive,title:'思考 1'}];
+  if(!Array.isArray(state.deliveries))state.deliveries=[{title:'交付 1',help:state.help||'',next:state.next||''}];
+}
+function entryText(kind){
+  const entries=[];
+  for(const entry of state[kind]){
+    const lines=[];
+    for(const [key,label] of entryTypes[kind].fields){
+      const value=(entry[key]||'').trim();
+      if(value)lines.push(label+'\n'+value);
+    }
+    if(lines.length)entries.push('【'+entry.title+'】\n'+lines.join('\n'));
+  }
+  return entries;
+}
+function addEntry(kind){
+  const name=entryTypes[kind].name;
+  let number=state[kind].length+1;
+  while(state[kind].some(entry=>entry.title===name+' '+number))number++;
+  const entry={title:name+' '+number};
+  state[kind].push(entry);save();renderEntries(kind,entry);
+}
+function renderEntries(kind,editing=null){
+  const host=$(kind),type=entryTypes[kind];
+  host.replaceChildren();
+  for(const entry of state[kind]){
+    const details=document.createElement('details');
+    const heading=document.createElement('summary');
+    const caption=document.createElement('span');caption.textContent=entry.title;heading.append(caption,addGrip(details,entry,kind));
+    const body=document.createElement('div');
+    body.className='entry-body';
+    const nameLabel=document.createElement('label');
+    nameLabel.textContent=type.name+'名称';
+    const title=document.createElement('input');
+    title.className='entry-title';title.value=entry.title;title.maxLength=150;
+    title.oninput=()=>{
+      const name=title.value.trim();
+      if(name){entry.title=name;caption.textContent=name;save();if(kind==='deliveries')summary()}
+    };
+    title.onblur=()=>{title.value=entry.title};
+    nameLabel.append(title);body.append(nameLabel);
+    const fields=document.createElement('div');
+    fields.className='archive-fields';
+    for(const [key,label,hint] of type.fields){
+      const wrap=document.createElement('label'),box=document.createElement('textarea');
+      wrap.textContent=label;box.rows=5;box.placeholder=hint||'记几个关键词即可';box.value=entry[key]||'';
+      box.oninput=()=>{entry[key]=box.value;save();if(kind==='deliveries')summary()};
+      wrap.append(box);fields.append(wrap);
+    }
+    const remove=document.createElement('button');
+    remove.className='delete-entry';remove.textContent='删除这条'+type.name;
+    remove.onclick=()=>{
+      if(!confirm('删除「'+entry.title+'」及其内容？'))return;
+      state[kind]=state[kind].filter(item=>item!==entry);save();renderEntries(kind);summary();
+    };
+    body.append(fields);descriptionFields(body,entry);body.append(remove);details.append(heading,body);host.append(details);
+    details.name='daybook-'+kind;
+    if(entry===editing){details.open=true;title.focus();title.select()}
+  }
+}
+$('addThought').onclick=()=>addEntry('thoughts');
+$('addDelivery').onclick=()=>addEntry('deliveries');
+async function copyText(value, success){
+  try{await navigator.clipboard.writeText(value)}
+  catch{
+    const buffer=document.createElement('textarea');
+    buffer.value=value;
+    buffer.style.cssText='position:fixed;left:0;top:0;opacity:0';
+    const previous=document.activeElement;
+    document.body.append(buffer);buffer.select();
+    let copied=false;
+    try{copied=document.execCommand('copy')}finally{buffer.remove();previous?.focus()}
+    if(!copied){window.prompt('请手动复制以下内容',value);return}
+  }
+  notify(success);
+}
+$('copy').onclick=()=>{
+  if(!$('summary').value){notify('先记录一条工作进展');return}
+  copyText($('summary').value,'已复制汇报');
+};
+$('copyArchive').onclick=()=>{
+  const notes=entryText('thoughts');
+  if(!notes.length){notify('先展开思考节点，留下一个想法');return}
+  copyText([date+' 思考存档',...notes].join('\n\n'),'已复制思考存档');
+};
+$('day').onchange=()=>{if($('day').value)load();else $('day').value=date};
+function stepDate(direction){
+  const picker=$('day');
+  if(direction<0)picker.stepDown();else picker.stepUp();
+  load();
+}
+$('prevDay').onclick=()=>stepDate(-1);
+$('nextDay').onclick=()=>stepDate(1);
+const board=$('board'), panel=$('boardDay');
+let activeArchive=null,editingArchive=false,boardBusy=false,unsaved=false;
+
+function node(tag,text,cls){
+  const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;
+}
+function action(label,fn){const button=node('button',label);button.onclick=fn;return button}
+function ask(dialog){dialog.returnValue='';dialog.showModal();return new Promise(resolve=>dialog.addEventListener('close',()=>resolve(dialog.returnValue),{once:true}))}
+async function api(path='',options={}){
+  if(location.protocol==='file:')throw Error('使用局域网看板，请打开局域网网址。');
+  const response=await fetch('/api/archive'+path,{...options,cache:'no-store',headers:{'Content-Type':'application/json','X-Daybook-User':user||'',...options.headers}});
+  const data=await response.json();
+  if(!response.ok)throw Object.assign(Error(data.error||'请求失败'),{status:response.status});
+  return data;
+}
+const profileMenu=$('accountButton'),fileMode=location.protocol==='file:';
+const defaults=[{id:'user1',name:'用户1'},{id:'user2',name:'用户2'}];
+let profileRows=[],chosen=null,deleteDates=null;
+function currentName(){return profileRows.find(p=>p.id===user)?.name||(user==='guest'?'旧访客草稿':'选择用户')}
+function hideProfiles(){
+  $('profileList').hidden=$('profileActions').hidden=true;profileMenu.setAttribute('aria-expanded','false');
+}
+function applyProfile(id,reload=true){
+  user=id;profileMenu.textContent=currentName()+' ▾';
+  const empty=!user;
+  document.querySelector('main').hidden=empty;
+  for(const control of ['day','prevDay','nextDay'])$(control).disabled=empty;
+  $('openBoard').disabled=$('uploadDay').disabled=empty||user==='guest';
+  if(user){sessionStorage.setItem('daybook.profile',user);localStorage.setItem('daybook.lastProfile',user)}
+  if(reload){if(user)load();else ++draftView}
+}
+function withGuest(rows){
+  return Object.keys(localStorage).some(k=>k.startsWith('daybook.draft.guest.'))?[...rows,{id:'guest',name:'旧访客草稿'}]:rows;
+}
+async function refreshProfiles(initial=false){
+  const rows=fileMode?JSON.parse(localStorage.getItem('daybook.fileProfiles')||'null')||defaults:await api('/users');
+  profileRows=withGuest(rows);
+  const next=profileRows.some(p=>p.id===user)?user:profileRows[0]?.id||'';
+  applyProfile(next,initial||next!==user||!date);
+}
+function drawProfiles(){
+  const list=$('profileList');list.replaceChildren();
+  for(const p of profileRows){
+    const button=action(p.name,()=>{hideProfiles();applyProfile(p.id)});
+    button.setAttribute('aria-current',String(p.id===user));
+    if(p.id!=='guest'){
+      button.title='右键改名或删除';
+      button.oncontextmenu=e=>{
+        e.preventDefault();chosen=p;
+        const menu=$('profileActions');menu.hidden=false;
+        menu.style.left=Math.min(e.clientX,innerWidth-menu.offsetWidth)+'px';
+        menu.style.top=Math.min(e.clientY,innerHeight-menu.offsetHeight)+'px';
+        $('renameProfile').focus();
+      };
+    }
+    list.append(button);
+  }
+  list.append(action('＋ 添加用户',()=>editProfile(null)));
+}
+profileMenu.onclick=async()=>{
+  if(!$('profileList').hidden){hideProfiles();return}
+  try{await refreshProfiles();drawProfiles();$('profileList').hidden=false;profileMenu.setAttribute('aria-expanded','true')}
+  catch(error){notify(error.message)}
+};
+document.addEventListener('pointerdown',e=>{
+  if(!e.target.closest('.profile-picker,#profileActions'))hideProfiles();
+  else if(!e.target.closest('#profileActions'))$('profileActions').hidden=true;
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hideProfiles()});
+function editProfile(p){
+  chosen=p;hideProfiles();$('profileError').textContent='';
+  $('profileHeading').textContent=p?'修改用户名':'添加用户';$('profileName').value=p?.name||'';
+  $('profileDialog').showModal();$('profileName').select();
+}
+$('renameProfile').onclick=()=>editProfile(chosen);
+$('cancelProfile').onclick=()=>$('profileDialog').close();
+async function changeProfiles(change){
+  if(!fileMode)return api('/users',{method:'POST',body:JSON.stringify(change)});
+  const list=JSON.parse(localStorage.getItem('daybook.fileProfiles')||'null')||defaults.map(p=>({...p}));
+  if(change.op==='add')list.push({id:'u-'+Date.now()+'-'+Math.random().toString(36).slice(2),name:change.name});
+  else{
+    const index=list.findIndex(p=>p.id===change.id);if(index<0)throw Error('此用户已移除。');
+    if(change.op==='delete')list.splice(index,1);else list[index].name=change.name;
+  }
+  if(new Set(list.map(p=>p.name)).size!==list.length)throw Error('该名称已在使用。');
+  localStorage.setItem('daybook.fileProfiles',JSON.stringify(list));return list;
+}
+$('profileForm').onsubmit=async e=>{
+  e.preventDefault();const name=$('profileName').value.trim();if(!name){$('profileError').textContent='请输入用户名。';return}
+  const form=e.currentTarget;form.inert=true;
+  try{
+    const rows=await changeProfiles(chosen?{op:'rename',id:chosen.id,name}:{op:'add',name});
+    profileRows=withGuest(rows);$('profileDialog').close();
+    const next=chosen?user:rows.at(-1).id;
+    applyProfile(next, next!==user);notify(chosen?'用户名已更新':'已切换到新用户');
+  }catch(error){$('profileError').textContent=error.message}finally{form.inert=false}
+};
+$('deleteProfile').onclick=async()=>{
+  const p=chosen;hideProfiles();
+  try{
+    deleteDates=fileMode?{drafts:[],history:[]}:await api('/user-dates',{headers:{'X-Daybook-User':p.id}});
+    chosen=p;$('deleteError').textContent='';$('deleteHeading').textContent='删除「'+p.name+'」？';
+    const localDates=Object.keys(localStorage).flatMap(k=>{
+      const prefix=['daybook.draft.'+p.id+'.',...(p.id==='user1'?['daybook.v1.']:[])].find(prefix=>k.startsWith(prefix));
+      const d=prefix?k.slice(prefix.length):'';return /^\d{4}-\d{2}-\d{2}$/.test(d)?[d]:[];
+    });
+    const line=(name,dates)=>name+'（'+dates.length+' 天）　'+(dates.join('、')||'无');
+    $('dateInventory').textContent=[line('局域网草稿',deleteDates.drafts),line('历史看板',deleteDates.history),line('当前浏览器草稿',[...new Set(localDates)].sort().reverse())].join('\n');
+    $('backupAdvice').textContent='删除后，用户将从列表移除，已有记录保留。'+(fileMode?'可先复制导出浏览器里的重要日期。':'如需备份，可先复制服务电脑 DaybookData 下的 drafts/'+p.id+' 和 history/'+p.id+' 文件夹。');
+    $('deleteDialog').showModal();
+  }catch(error){notify(error.message)}
+};
+$('cancelDelete').onclick=()=>$('deleteDialog').close();
+$('confirmDelete').onclick=async()=>{
+  const btn=$('confirmDelete');btn.disabled=true;
+  try{
+    profileRows=withGuest(await changeProfiles({op:'delete',id:chosen.id,dates:deleteDates}));$('deleteDialog').close();
+    const next=profileRows.some(p=>p.id===user)?user:profileRows[0]?.id||'';
+    applyProfile(next,next!==user);notify('用户已从列表移除');
+  }catch(error){$('deleteError').textContent=error.message}finally{btn.disabled=false}
+};
+function makeRecord(){
+  const record={date,hours:[...state.hours],tasks:state.tasks.map(t=>({...t}))};
+  for(const [kind,type] of Object.entries(entryTypes)){
+    record[kind]=state[kind].map(item=>({
+      ...Object.fromEntries(['title',...type.fields.map(f=>f[0])].map(k=>[k,item[k]||''])),
+      ...(item.descriptions?{descriptions:item.descriptions}:{})
+    }));
+  }
+  const tasks=state.tasks.filter(t=>t.delivery && t.group!==3);
+  record.completed=tasks.filter(t=>t.status==='done').map(t=>t.title).join('\n');
+  record.pending=tasks.filter(t=>t.status!=='done').map(t=>t.title).join('\n');
+  return record;
+}
+function printable(record){
+  const parts=[record.date];
+  for(const [kind,type] of Object.entries(entryTypes))for(const item of record[kind]){
+    parts.push('【'+type.name+' · '+item.title+'】',...type.fields.filter(([k])=>item[k]).map(([k,label])=>label+'\n'+item[k]));
+  }
+  if(record.completed)parts.push('已完成交付任务\n'+record.completed);
+  if(record.pending)parts.push('待完成交付任务\n'+record.pending);
+  if(record.tasks)parts.push('精力配比（小时） '+record.hours.join(' / '),...record.tasks.map(t=>groups[t.group]+' · '+({open:'待办',done:'完成',paused:'暂放'})[t.status]+' · '+t.title));
+  return parts.join('\n\n');
+}
+$('keepRemote').onclick=()=>$('compare').close('cancel');
+$('replaceRemote').onclick=()=>$('compare').close('replace');
+async function publish(record,version){
+  for(;;){
+    try{return await api('/'+record.date,{method:'PUT',body:JSON.stringify({record,version})})}
+    catch(error){
+      if(error.status!==409)throw error;
+      const latest=await api('/'+record.date);
+      if(JSON.stringify(latest.record)===JSON.stringify(record))return latest;
+      $('latestText').textContent=printable(latest.record);
+      if(await ask($('compare'))!=='replace')return null;
+      version=latest.version;
+    }
+  }
+}
+$('uploadDay').onclick=async()=>{
+  $('uploadDay').disabled=true;$('openBoard').disabled=true;$('accountButton').disabled=true;
+  try{
+    const record=makeRecord(),key=versionKey(record.date);
+    $('uploadStatus').textContent='正在归档 '+record.date+'…';
+    const result=await publish(record,localStorage.getItem(key));
+    if(result)localStorage.setItem(key,result.version);
+    $('uploadStatus').textContent=record.date+(result?' 已保存到历史看板':' 已取消归档');
+  }catch(error){$('uploadStatus').textContent=error.message}
+  finally{$('accountButton').disabled=false;$('uploadDay').disabled=false;$('openBoard').disabled=false}
+};
+function mayLeave(){return !unsaved||confirm('放弃这次尚未保存的看板修改？')}
+function closeBoard(){if(!boardBusy&&mayLeave()){board.close();unsaved=false}}
+$('closeBoard').onclick=closeBoard;
+board.addEventListener('cancel',event=>{event.preventDefault();closeBoard()});
+async function runBoard(fn){
+  if(boardBusy)return;
+  boardBusy=true;board.querySelector('.board-layout').inert=true;$('closeBoard').disabled=true;
+  $('boardStatus').textContent='正在读取本机看板…';
+  try{await fn()}catch(error){$('boardStatus').textContent=error.message}
+  finally{boardBusy=false;board.querySelector('.board-layout').inert=false;$('closeBoard').disabled=false}
+}
+async function selectArchive(key){
+  const result=await api('/'+key);activeArchive=result;unsaved=false;editingArchive=false;
+  for(const b of $('boardDates').children)b.setAttribute('aria-current',String(b.textContent===key));
+  drawArchive();$('boardStatus').textContent='';
+}
+$('openBoard').onclick=async()=>{
+  board.querySelector('h2').textContent=currentName()+' · 历史看板';
+  activeArchive=null;editingArchive=false;unsaved=false;panel.replaceChildren();$('boardDates').replaceChildren();
+  board.showModal();
+  runBoard(async()=>{
+    const {dates}=await api();
+    for(const key of dates)$('boardDates').append(action(key,()=>{if(mayLeave())runBoard(()=>selectArchive(key))}));
+    if(dates.length)await selectArchive(dates.includes(date)?date:dates[0]);
+    else $('boardStatus').textContent='还没有已归档的日期。在工作台选择日期，再点「归档整日工作台」。';
+  })
+};
+function drawArchive(){
+  panel.replaceChildren();const record=activeArchive.record;
+  const header=node('div',undefined,'row');header.append(node('h3',record.date));
+  if(editingArchive){
+    header.append(action('取消编辑',()=>{if(mayLeave())runBoard(()=>selectArchive(record.date))}),action('保存到历史看板',()=>runBoard(async()=>{
+      const saved=await publish(record,activeArchive.version);
+      if(!saved){$('boardStatus').textContent='已保留远端存档。当前编辑仍在页面中。';return}
+      activeArchive=saved;unsaved=false;editingArchive=false;drawArchive();$('boardStatus').textContent='已保存到历史看板。';
+    })));
+  }else header.append(action('载入主面板',()=>{
+    if(restore(record,activeArchive.version)){board.close();notify('已载入，可在主面板继续编辑')}
+  }),action('编辑这一天',()=>{editingArchive=true;drawArchive()}));
+  panel.append(header);
+  function field(parent,label,obj,key){
+    if(editingArchive){
+      const wrap=node('label',label),input=node(key==='title'?'input':'textarea');
+      input.value=obj[key];input.className=key==='title'?'entry-title':'';input.oninput=()=>{obj[key]=input.value;unsaved=true};
+      wrap.append(input);parent.append(wrap);
+    }else if(obj[key])parent.append(node('small',label),node('p',obj[key]));
+  }
+  for(const [kind,type] of Object.entries(entryTypes)){
+    const block=node('div',undefined,'record-block'),heading=node('div',undefined,'row');heading.append(node('h3',kind==='thoughts'?'思考节点':'交付内容'));
+    if(editingArchive)heading.append(action('添加'+type.name,()=>{
+      record[kind].push(Object.fromEntries([['title',type.name+' '+(record[kind].length+1)],...type.fields.map(([k])=>[k,''])]));
+      unsaved=true;drawArchive();
+    }));
+    block.append(heading);
+    if(!record[kind].length)block.append(node('small','暂无记录'));
+    for(const item of record[kind]){
+      if(editingArchive)field(block,'名称',item,'title');else block.append(node('h4',item.title));
+      for(const [key,label] of type.fields)field(block,label,item,key);
+      if(editingArchive)block.append(action('移除此条',()=>{if(confirm('移除「'+item.title+'」？保存后生效。')){record[kind]=record[kind].filter(x=>x!==item);unsaved=true;drawArchive()}}));
+    }
+    panel.append(block);
+  }
+  const tasks=node('div',undefined,'record-block');
+  if(record.tasks){
+    tasks.append(node('h3','任务与精力配比'));
+    for(const [i,name] of groups.entries()){
+      tasks.append(node('small',name+' · '+record.hours[i]+' h'));
+      tasks.append(node('p',record.tasks.filter(t=>t.group===i).map(t=>(t.status==='done'?'✓ ':t.status==='paused'?'暂放 · ':'□ ')+t.title).join('\n')||'—'));
+    }
+    panel.append(tasks);return;
+  }
+  field(tasks,'已完成交付任务',record,'completed');field(tasks,'待完成交付任务',record,'pending');panel.append(tasks);
+}
+window.addEventListener('beforeunload',e=>{if(unsaved){e.preventDefault();e.returnValue=''}});
+const transferFormat='daybook.workday.v1';
+function validateTasks(tasks){
+  const ids=new Set();
+  if(!Array.isArray(tasks)||tasks.some(t=>{
+    if(!t||typeof t.id!=='string'||!t.id||ids.has(t.id)||typeof t.title!=='string'||!Number.isInteger(t.group)||t.group<0||t.group>3||typeof t.delivery!=='boolean'||!['done','open','paused'].includes(t.status))return true;
+    ids.add(t.id);return false;
+  }))throw Error('任务格式无效。');
+  validateDescriptions(tasks);
+}
+function validateDescriptions(items){
+  for(const item of items){
+    if(item.descriptions===undefined)continue;
+    if(!item.descriptions||typeof item.descriptions!=='object'||Array.isArray(item.descriptions))throw Error('描述格式无效');
+    for(const [kind,notes] of Object.entries(item.descriptions)){
+      if(!Object.hasOwn(entryTypes,kind)||!notes||entryTypes[kind].fields.some(([key])=>typeof notes[key]!=='string'))throw Error('描述字段无效');
+    }
+  }
+}
+$('exportTasks').onclick=()=>{
+  if(!state.tasks.length){notify('当天还没有任务');return}
+  const host=$('taskChoices');host.replaceChildren();
+  groups.forEach((name,i)=>{
+    const tasks=state.tasks.filter(t=>t.group===i);
+    if(tasks.length)host.append(node('h3',name));
+    for(const task of tasks){
+      const label=node('label',undefined,'task-choice'),box=node('input');box.type='checkbox';box.value=task.id;box.checked=task.status!=='done';
+      label.append(box,document.createTextNode(task.title+(task.status==='done'?' · 已完成':task.status==='paused'?' · 暂放':'')));host.append(label);
+    }
+  });
+  $('taskExportDialog').showModal();
+};
+$('cancelTaskExport').onclick=()=>$('taskExportDialog').close();
+$('copyTasks').onclick=()=>{
+  const selected=new Set(Array.from($('taskChoices').querySelectorAll('input:checked'),el=>el.value));
+  if(!selected.size){notify('请先勾选任务');return}
+  const tasks=state.tasks.filter(t=>selected.has(t.id));
+  $('taskExportDialog').close();
+  copyText(JSON.stringify({format:'daybook.tasks.v1',date,tasks},null,2),'已复制 '+tasks.length+' 项任务');
+};
+$('importTasks').onclick=()=>{
+  $('taskText').value='';$('taskError').textContent='';
+  $('taskDestination').textContent='追加到 '+date+' 的任务清单，保留原分类、状态和描述。';
+  $('taskImportDialog').showModal();$('taskText').focus();
+};
+$('cancelTaskImport').onclick=()=>$('taskImportDialog').close();
+$('applyTasks').onclick=()=>{
+  try{
+    const pack=JSON.parse($('taskText').value.trim());
+    if(pack?.format!=='daybook.tasks.v1')throw Error('请粘贴「导出任务」生成的文本。');
+    validateTasks(pack.tasks);
+    const ids=new Set(state.tasks.map(t=>t.id)),fresh=pack.tasks.filter(t=>!ids.has(t.id));
+    state.tasks.push(...fresh);refresh();$('taskImportDialog').close();
+    notify('已追加 '+fresh.length+' 项任务'+(fresh.length<pack.tasks.length?'，已存在的任务已跳过':''));
+  }catch(error){$('taskError').textContent=error instanceof SyntaxError?'文本不完整，请重新复制。':error.message}
+};
+function parsedTransfer(text){
+  const envelope=JSON.parse(text.trim().replace(/^\uFEFF/,''));
+  if(envelope?.format!==transferFormat)throw Error('格式不匹配，请粘贴「复制导出」生成的完整文本。');
+  const r=envelope.day;
+  if(!r||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||new Date(r.date+'T12:00:00Z').toJSON()?.slice(0,10)!==r.date)throw Error('工作日期无效。');
+  if(!Array.isArray(r.hours)||r.hours.length!==4||r.hours.some(n=>!Number.isFinite(n)||n<0||n>24))throw Error('精力配比无效。');
+  validateTasks(r.tasks);
+  for(const [kind,type] of Object.entries(entryTypes)){
+    if(!Array.isArray(r[kind])||r[kind].some(item=>!item||['title',...type.fields.map(([k])=>k)].some(k=>typeof item[k]!=='string')))throw Error('思考或汇报字段不完整。');
+  }
+  validateDescriptions([...r.thoughts,...r.deliveries]);
+  return r;
+}
+function restore(record,version=null){
+  const legacy=!Array.isArray(record.tasks);
+  const existing=readDraft(record.date);
+  if((existing||legacy)&&!confirm(legacy?
+    '这是旧版摘要。将恢复 '+record.date+' 的思考和交付，并按标题补入交付任务。原有配比和其他任务会保留。':
+    '用这份记录替换当前账号 '+record.date+' 的本地草稿？'))return false;
+  const base=existing?JSON.parse(existing):{};
+  const tasks=legacy?[...(base.tasks||[])]:record.tasks;
+  if(legacy){
+    const used=new Set();
+    for(const [key,status] of [['completed','done'],['pending','open']]){
+      for(const title of record[key].split('\n').map(v=>v.trim()).filter(Boolean)){
+        const match=tasks.find(t=>!used.has(t.id)&&t.delivery&&t.title===title);
+        if(match){match.status=status;used.add(match.id)}
+        else{
+          const id=Date.now()+'-'+Math.random().toString(36).slice(2);
+          tasks.push({id,title,group:2,delivery:true,status});used.add(id);
+        }
+      }
+    }
+  }
+  const draft={hours:legacy?(base.hours||[...presets[0]]):record.hours,tasks,thoughts:record.thoughts,deliveries:record.deliveries};
+  localStorage.setItem(draftKey(record.date),JSON.stringify(draft));
+  if(version)localStorage.setItem(versionKey(record.date),version);
+  else localStorage.removeItem(versionKey(record.date));
+  $('day').value=record.date;load();return true;
+}
+$('exportDay').onclick=()=>copyText(JSON.stringify({format:transferFormat,day:makeRecord()},null,2),'已复制当日完整工作台');
+$('importDay').onclick=()=>{$('importText').value='';$('importFile').value='';$('importError').textContent='';$('importDialog').showModal();$('importText').focus()};
+$('cancelImport').onclick=()=>$('importDialog').close();
+$('applyImport').onclick=()=>{
+  try{
+    const record=parsedTransfer($('importText').value);
+    if(restore(record)){$('importDialog').close();notify(record.date+' 已导入主面板')}
+  }catch(e){$('importError').textContent=e instanceof SyntaxError?'文本不是完整的日程簿 JSON，请重新复制。':e.message}
+};
+async function readTransferFile(file){
+  if(!file)return;
+  try{
+    if(file.size>2000000)throw Error('文件太大，请选择单日导出文本。');
+    $('importText').value=await file.text();$('importError').textContent='';
+  }catch(error){$('importError').textContent=error.message}
+}
+$('importFile').onchange=e=>readTransferFile(e.target.files[0]);
+$('importDialog').ondragover=e=>e.preventDefault();
+$('importDialog').ondrop=e=>{e.preventDefault();readTransferFile(e.dataTransfer.files[0])};
+let draftView=0,offeredDraft=null;
+function localSnapshot(record){
+  return JSON.stringify([record.hours,record.tasks.map(t=>[t.id,t.group,t.title,t.delivery,t.status,...(t.descriptions?[t.descriptions]:[])]),
+    ...['thoughts','deliveries'].map(kind=>record[kind].map(item=>[item.title,...entryTypes[kind].fields.map(([k])=>item[k]||''),...(item.descriptions?[item.descriptions]:[])]))]);
+}
+function draftBase(){return draftKey(date)+'.shared'}
+function markShared(remote){
+  localStorage.setItem(draftBase(),JSON.stringify({version:remote.version,snapshot:localSnapshot(remote.record)}));
+}
+function useShared(remote){
+  const {hours,tasks,thoughts,deliveries}=remote.record;
+  state={hours,tasks,thoughts,deliveries};save();markShared(remote);
+  allocation();cards();renderEntries('thoughts');renderEntries('deliveries');summary();
+  offeredDraft=null;$('loadShared').hidden=true;$('uploadStatus').textContent='已载入局域网草稿';
+}
+function offerShared(remote){
+  offeredDraft=remote;$('loadShared').hidden=false;
+  $('uploadStatus').textContent='局域网有另一份草稿。可载入查看，或保存本机版本。';
+}
+async function checkShared(){
+  const view=++draftView,initial=localSnapshot(makeRecord());
+  offeredDraft=null;$('loadShared').hidden=true;
+  const enabled=user!=='guest'&&location.protocol!=='file:';
+  $('saveShared').disabled=!enabled;
+  if(!enabled)return;
+  try{
+    const remote=await api('/draft/'+date);
+    if(view!==draftView)return;
+    if(!remote.record){
+      if(remote.carry&&!readDraft(date)&&remote.carry.date>=previousDraftDate){
+        let preferLocal=false;
+        if(remote.carry.date===previousDraftDate){
+          const saved=JSON.parse(localStorage.getItem(draftKey(previousDraftDate)+'.shared')||'null');
+          const prev=JSON.parse(readDraft(previousDraftDate));
+          // An edited local backlog takes precedence over an older shared copy.
+          preferLocal=!saved || JSON.stringify(prev.thoughts)!==JSON.stringify(remote.carry.thoughts)
+            && saved.snapshot!==localSnapshot({...prev,thoughts:prev.thoughts||[],deliveries:prev.deliveries||[]});
+        }
+        if(!preferLocal){carryThoughts(remote.carry.thoughts);renderEntries('thoughts')}
+      }
+      return;
+    }
+    const base=JSON.parse(localStorage.getItem(draftBase())||'null');
+    const local=localSnapshot(makeRecord()),shared=localSnapshot(remote.record);
+    if(local===shared){markShared(remote);$('uploadStatus').textContent='与局域网草稿一致';return}
+    if(base?.version===remote.version)return;
+    const typing=document.querySelector('.inline-name')||Array.from(document.querySelectorAll('.add input')).some(i=>i.value);
+    if(local===initial&&!typing&&(!readDraft(date)||base?.snapshot===local))useShared(remote);
+    else offerShared(remote);
+  }catch(e){if(view===draftView)$('uploadStatus').textContent='局域网草稿读取失败，可继续在本机填写。'}
+}
+$('loadShared').onclick=()=>{
+  if(offeredDraft&&confirm('用局域网草稿替换这一天的本地内容？'))useShared(offeredDraft);
+};
+$('saveShared').onclick=async()=>{
+  const view=draftView,record=makeRecord(),baseKey=draftBase();
+  let version=JSON.parse(localStorage.getItem(baseKey)||'null')?.version||null;
+  $('saveShared').disabled=true;
+  try{
+    for(;;){
+      try{
+        const remote=await api('/draft/'+record.date,{method:'PUT',body:JSON.stringify({version,record})});
+        localStorage.setItem(baseKey,JSON.stringify({version:remote.version,snapshot:localSnapshot(record)}));
+        if(view===draftView){offeredDraft=null;$('loadShared').hidden=true;$('uploadStatus').textContent='已保存局域网草稿 · '+record.date}
+        break;
+      }catch(e){
+        if(e.status!==409||view!==draftView)throw e;
+        const latest=await api('/draft/'+record.date);
+        if(view!==draftView)return;
+        offerShared(latest);
+        if(!confirm('另一台设备已经保存过这一天的草稿。用当前页面内容覆盖它？取消可保留两个版本。'))return;
+        version=latest.version;
+      }
+    }
+  }catch(e){if(view===draftView)$('uploadStatus').textContent='草稿保存失败：'+e.message}
+  finally{if(view===draftView)$('saveShared').disabled=false}
+};
+let calendarDay=$('day').value;
+function rollover(){
+  if(!user)return;
+  const n=new Date(),today=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate());
+  if(today===calendarDay)return;
+  if(date===calendarDay){
+    if(document.querySelector('dialog[open],.inline-name,.drag-source')||Array.from(document.querySelectorAll('.add input')).some(i=>i.value)||document.activeElement?.matches('textarea,input:not([type=date])'))return;
+    $('day').value=today;load();
+  }
+  calendarDay=today;
+}
+window.addEventListener('focus',rollover);setInterval(rollover,30000);
+refreshProfiles(true).catch(error=>{document.querySelector('main').hidden=true;notify('读取用户列表失败：'+error.message)});
+</script></body></html>

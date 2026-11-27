@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+DaybookData/
+DaybookArchive/
+users.json
+drafts/
+history/
+migration-backup/
